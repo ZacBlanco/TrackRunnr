@@ -3,17 +3,18 @@ var User = require('../models/user');
 
 // Add a GET endpoint at /api/users
 exports.getUsers = function(req, res) {
-    // Return the json for all of the users
-    User.find({}, {username: 1, _id: 1}, function(err, users) {
+    // Return the usernames
+    User.find({}, {username: 1}, function(err, users) {
         if (err)
             res.send(err);
-        res.json(users);
+        else
+            res.json(users);
     });
 };
 
 // Add a POST endpoint at /api/users
 exports.postUser = function(req, res) {
-    // create a new Users object
+    // Create a new User object
     var user = new User({
         username: req.body.username,
         password: req.body.password
@@ -27,8 +28,7 @@ exports.postUser = function(req, res) {
             res.json({
                 message: 'New user successfully added!',
                 user: {
-                    username: user.username,
-                    _id: user._id
+                    username: user.username
                 }
             });
     });
