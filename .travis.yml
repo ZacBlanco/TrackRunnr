@@ -1,15 +1,12 @@
 language: node_js
 node_js:
- - "5"
-	
+  - "5"	
 services:
- - mongodb
-
+  - mongodb
 install:
- - npm install
- 
+  - npm install
 before_script:
- - sudo mkdir /data/trackrunnr
-
+  - sudo mkdir /data
+  - sudo mkdir /data/trackrunnr
 script:
- - npm test
+  - npm test
