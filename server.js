@@ -7,6 +7,7 @@ var passport = require('passport');
 // Load controllers
 var exampleController = require('./controllers/exampleController');
 var userController = require('./controllers/userController');
+var authController = require('./controllers/auth');
 
 var app = express();
 var port = process.env.PORT || 4777;
@@ -28,6 +29,8 @@ apiRouter.route('/users')
 apiRouter.route('/users/:username')
     .delete(userController.deleteUser)
     .get(userController.getUser);
+
+
 
 // Register all Routers
 app.use('/api', apiRouter);
