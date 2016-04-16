@@ -4,7 +4,7 @@ var User = require('../models/user');
 // Add a GET endpoint at /api/users
 exports.getUsers = function(req, res) {
     // Return the json for all of the users
-    User.find(function(err, users) {
+    User.find({}, {username: 1, _id: 1}, function(err, users) {
         if (err)
             res.send(err);
         res.json(users);
