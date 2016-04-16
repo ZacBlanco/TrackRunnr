@@ -1,4 +1,4 @@
-# TrackRunnr
+# TrackRunnr [![Build Status](https://travis-ci.org/ZacBlanco/TrackRunnr.svg?branch=master)](https://travis-ci.org/ZacBlanco/TrackRunnr)
 
 TrackRunnr was developed by Zac Blanco and RIchard Ahn at HackRU in Spring of 2016.
 
