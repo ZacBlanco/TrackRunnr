@@ -4,12 +4,15 @@
   "description": "An application for advanced runners to track their mileage and training.",
   "main": "server.js",
   "dependencies": {
+    "bcrypt-nodejs": "0.0.3",
     "body-parser": "^1.15.0",
     "chai": "^3.5.0",
     "express": "^4.13.4",
     "mocha": "^2.4.5",
     "mongoose": "^4.4.12",
     "passport": "^0.3.2",
+    "passport-http": "^0.3.0",
+    "should": "^8.3.1",
     "supertest": "^1.2.0"
   },
   "devDependencies": {},
@@ -17,8 +20,9 @@
     "pretest": "sudo mongod --fork --logpath /var/log/mongo-trackrunnr.log --dbpath /data/trackrunnr",
     "test": "node_modules/mocha/bin/mocha test",
     "posttest": "mongo admin --eval \"db.shutdownServer()\"",
-    "prestart": "mongo admin --eval \"db.shutdownServer()\" && sudo mongod --fork --logpath /var/log/mongo-trackrunnr.log --dbpath /data/trackrunnr",
-    "start": "node server.js"
+    "prestart": "sudo mongod --fork --logpath /var/log/mongo-trackrunnr.log --dbpath /data/trackrunnr",
+    "start": "node server.js",
+	"kill-mongo": "mongo admin --eval \"db.shutdownServer()\""
   },
   "author": "Zac Blanco, Richard Ahn",
   "license": "ISC"
