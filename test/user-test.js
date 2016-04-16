@@ -9,10 +9,17 @@ describe('This contains tests for the user model and controller', function() {
             .expect(200, done);
     });
     it('Testing a POST request at endpoint /api/users', function(done) {
+        var user = {
+            username: 'John',
+            password: 'Doe'
+        };
+
         request(server)
-            .get('api/users')
+            .post('/api/users')
+            .type('json')
+            .send(user)
             .expect(200, done);
-    })
+    });
 });
 
 server.close();

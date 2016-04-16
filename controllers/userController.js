@@ -7,7 +7,7 @@ exports.getUsers = function(req, res) {
     User.find(function(err, users) {
         if (err)
             res.send(err);
-        req.json(users);
+        res.json(users);
     });
 };
 
@@ -23,5 +23,5 @@ exports.postUsers = function(req, res) {
         if (err)
             res.send(err);
         res.json({ message: 'New user successfully added!' });
-    })
+    });
 };

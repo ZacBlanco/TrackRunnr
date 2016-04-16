@@ -33,3 +33,5 @@ UserSchema.pre('save', function(callback) {
         });
     });
 });
+
+module.exports = mongoose.model('User', UserSchema);
