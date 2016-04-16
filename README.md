@@ -1,6 +1,6 @@
 # TrackRunnr [![Build Status](https://travis-ci.org/ZacBlanco/TrackRunnr.svg?branch=master)](https://travis-ci.org/ZacBlanco/TrackRunnr)
 
-TrackRunnr was developed by Zac Blanco and RIchard Ahn at HackRU in Spring of 2016.
+TrackRunnr was developed by Zac Blanco and Richard Ahn at HackRU in Spring of 2016.
 
 The aim of _TrackRunnr_ is to build a modern, scalable web app for advanced runners to track and log their training. We've built the app from the bottom up using modern web technologies and good software engineering practice.
 
