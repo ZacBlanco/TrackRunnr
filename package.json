@@ -20,8 +20,9 @@
     "pretest": "sudo mongod --fork --logpath /var/log/mongo-trackrunnr.log --dbpath /data/trackrunnr",
     "test": "node_modules/mocha/bin/mocha test",
     "posttest": "mongo admin --eval \"db.shutdownServer()\"",
-    "prestart": "mongo admin --eval \"db.shutdownServer()\" && sudo mongod --fork --logpath /var/log/mongo-trackrunnr.log --dbpath /data/trackrunnr",
-    "start": "node server.js"
+    "prestart": "sudo mongod --fork --logpath /var/log/mongo-trackrunnr.log --dbpath /data/trackrunnr",
+    "start": "node server.js",
+	"kill-mongo": "mongo admin --eval \"db.shutdownServer()\""
   },
   "author": "Zac Blanco, Richard Ahn",
   "license": "ISC"
