@@ -22,6 +22,7 @@ exports.postUsers = function(req, res) {
     user.save(function(err) {
         if (err)
             res.send(err);
-        res.json({ message: 'New user successfully added!' });
+        else
+            res.json({ message: 'New user successfully added!' });
     });
 };
