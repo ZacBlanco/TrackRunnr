@@ -17,7 +17,7 @@ describe('This contains tests for the user model and controller', function() {
     it('Testing a POST request at endpoint /api/users', function(done) {
         request(server)
             .post('/api/users')
-            .send("username=Bobdddd")
+            .send("username=Alexander")
             .send("password=Doe")
             .end(function(err, res) {
                 if (err)
@@ -26,6 +26,22 @@ describe('This contains tests for the user model and controller', function() {
                     test_username = res.body.user.username;
                     res.status.should.equal(200);
                     res.body.message.should.equal('New user successfully added!');
+                    done();
+                };
+            });
+    });
+    it('Testing a duplicate username error for POST', function(done) {
+        request(server)
+            .post('/api/users')
+            .send("username=Alexander")
+            .send("password=Doe")
+            .end(function(err, res) {
+                if (err) {
+                    done(err);
+                }
+                else {
+                    res.status.should.equal(400);
+                    res.body.message.should.equal('Cannot create a username that already exists');
                     done();
                 };
             });

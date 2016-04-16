@@ -1,12 +1,20 @@
 // Get the User
 var User = require('../models/user');
+var errorDuplicates = {
+    // This is a bad request error
+    status: 400,
+    errorMsg: {
+        message: "Cannot create a username that already exists"
+    }
+}
 
 // Add a GET endpoint at /api/users
 exports.getUsers = function(req, res) {
     // Return the usernames
     User.find({}, {username: 1}, function(err, users) {
-        if (err)
-            res.send(err);
+        if (err) {
+            res.send();
+        }
         else
             res.json(users);
     });
@@ -23,7 +31,8 @@ exports.postUser = function(req, res) {
 
     user.save(function(err) {
         if (err) {
-            res.send(err);
+            res.status(errorDuplicates.status)
+            res.send(errorDuplicates.errorMsg);
         }
         else
             res.json({
@@ -40,9 +49,8 @@ exports.deleteUser = function(req, res) {
     User.findOneAndRemove({}, { username: req.params.username }, function(err, user) {
         if (err)
             res.send(err);
-        else {
+        else
             res.json({ message: "User deleted!"});
-        }
     })
 }
 // Add a GET endpoint at /api/users/:username
