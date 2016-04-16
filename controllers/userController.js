@@ -15,6 +15,7 @@ exports.getUsers = function(req, res) {
 // Add a POST endpoint at /api/users
 exports.postUser = function(req, res) {
     // Create a new User object
+	console.log(req.body);
     var user = new User({
         username: req.body.username,
         password: req.body.password
