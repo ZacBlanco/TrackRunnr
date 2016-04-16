@@ -10,7 +10,12 @@ describe('This describes a set of tests in set1', function() {
 	});
 	it('Description of Test2 in set1', function(done) {
 		request(server)
-			.get('/api/example')
+			.get('/api/example/bad')
+			.expect(404, done);
+	});
+	it('A third test', function(done) {
+		request(server)
+			.get('/api/example/bad')
 			.expect(404, done);
 	});
 
