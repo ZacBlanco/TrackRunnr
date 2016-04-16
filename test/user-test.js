@@ -1,6 +1,7 @@
 var request = require('supertest');
 var server = require('../server');
 var chai = require('chai');
+var assert = chai.assert;
 
 describe('This contains tests for the user model and controller', function() {
     it('Testing a GET request at endpoint /api/users', function(done) {
@@ -10,15 +11,20 @@ describe('This contains tests for the user model and controller', function() {
     });
     it('Testing a POST request at endpoint /api/users', function(done) {
         var user = {
-            username: 'John',
-            password: 'Doe'
+            username: "John",
+            password: "Doe"
         };
 
         request(server)
             .post('/api/users')
-            .type('json')
             .send(user)
-            .expect(200, done);
+            .expect("Content-type", /json/)
+            .end(function(err, res) {
+                if (err)
+                    done(err);
+                assert(res.statusCode == 200);
+                done();
+            });
     });
 });
 
