@@ -23,8 +23,8 @@ app.use(passport.initialize());
 var apiRouter = express.Router();
 apiRouter.route('/example').get(exampleController.getTestJSON);
 apiRouter.route('/users')
-    .get(userController.getUsers)
-    .post(userController.postUsers);
+    .post(userController.postUsers)
+    .get(userController.getUsers);
 
 // Register all Routers
 app.use('/api', apiRouter);
