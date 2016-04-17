@@ -1,20 +1,27 @@
 <div class="container">
 	<div class="row">
 		<h1 class="col-sm-push-4">TrackRunnr</h1>
-		<div class="col-md-4 col-md-push-8">
+		<div class="col-md-5 col-md-push-7">
             <!-- if (logged in), show a greeting-->
             <% if (loggedIn){ %>
-            <div class="greeting">
-                Welcome, <%= user.username %>!
-				<a class="btn btn-primary">Profile</a>
-                <hr>
-                <a href="/logout">Logout</a>
-				<hr>
-				<form class="form" method="post" action="/deleteUser">
+            <div class="greeting row">
+				<div class="container bg-danger">
+					
+					<div class="row text-center">Welcome, <%= user.username %>!</div>
+				<div class="text-center row pull-center">
+                <div class="btn-group" role="group">
+					<a class="btn btn-default btn-lg" role="group">Profile</a>
+					<a class="btn btn-default btn-lg" href="/logout" role="group">Logout</a>
+					<form class="btn btn-default bg-danger" method="post" action="/deleteUser">
 					<input type="hidden" name="username" value="<%= user.username %>"></input>
 					<input type="hidden" name="password" value="dummy_password"></input>
-					<input type="submit" value="Delete" class="btn btn-danger"></input>
+					<input type="submit" value="Delete Account" class="btn btn-default"></input>
 				</form>
+				</div>
+					
+					
+					</div>
+				</div>
             </div>
 
             <!-- if not, show a login and signup page -->
