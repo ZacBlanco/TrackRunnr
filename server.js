@@ -5,8 +5,9 @@ var bodyParser = require('body-parser');
 var passport = require('passport');
 
 // Load controllers
-var exampleController = require('./controllers/exampleController');
 var userController = require('./controllers/userController');
+var workoutController = require('./controllers/workoutEntryController');
+
 
 var app = express();
 var port = process.env.PORT || 4777;
@@ -21,13 +22,18 @@ app.use(passport.initialize());
 // Router Declarations
 // API Router
 var apiRouter = express.Router();
-apiRouter.route('/example').get(exampleController.getTestJSON);
+
 apiRouter.route('/users')
     .post(userController.postUser)
     .get(userController.getUsers);
 apiRouter.route('/users/:username')
     .delete(userController.deleteUser)
     .get(userController.getUser);
+
+apiRouter.route('/users/:username/workouts')
+	.get(workoutController.getWorkouts)
+	.post(workoutController.postWorkout)
+	.delete(workoutController.deleteWorkouts);
 
 // Register all Routers
 app.use('/api', apiRouter);
