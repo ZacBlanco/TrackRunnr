@@ -1,6 +1,7 @@
 var LocalStrategy = require('passport-local').Strategy;
 var User = require('../models/user');
 var passport = require('passport');
+var workoutController = require('./workoutController');
 
 
 passport.serializeUser(function(user, done) {
@@ -78,7 +79,24 @@ passport.use('local-login', new LocalStrategy({ passReqToCallback: true },
 
 }));
 
+passport.use('local-submitWorkout', new LocalStrategy({ passReqToCallback: true },
+    function(req, username, password, done) {
+        // Check if username exists
+        var workout = {
+            username: req.body.username,
+            date: req.body.date,
+            difficulty: req.body.difficulty,
+            totalTime: req.body.hours * 3600 + req.body.minutes * 60 + req.body.seconds,
+            distance: req.body.distance
+        };
+        workoutController.postWorkout(username, workout, done);
+    }));
 
+exports.authenticateSubmitWorkout = passport.authenticate('local-submitWorkout', {
+    successRedirect: '/',
+    failureRedirect: '/',
+    failureFlash: true
+})
 
 exports.authenticateLogin = passport.authenticate('local-login', {
     successRedirect: '/',

@@ -25,7 +25,7 @@ exports.renderSignup = function(req, res) {
 exports.renderProfile = function(req, res) {
     workoutController.getWorkouts(req.user.username, function(err, w) {
 		var data = {workouts: w,
-				   	user: req.user 
+				   	user: req.user
 				   }
 		res.render('pages/profile.ejs', data);
     });
@@ -38,3 +38,9 @@ exports.renderViz= function(req, res) {
 		res.render('pages/viz.ejs', data);
     });
 };
+
+exports.renderAddWorkout = function(req, res) {
+    res.render('pages/addWorkout.ejs', {
+        user: req.user
+    });
+}

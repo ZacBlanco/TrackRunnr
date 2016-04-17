@@ -12,10 +12,10 @@
 		</header>
 
 		<main>
-			
+
 			<div class="container">
 				<div class="row">
-					<a class="btn btn-primary entry-button center-button">Add an entry</a>
+					<a href="/addWorkout" class="btn btn-primary entry-button center-button">Add an entry</a>
 				</div>
 				<table class="table">
 					<thead>
@@ -27,7 +27,7 @@
 						</tr>
 					</thead>
 					<tbody>
-						<% for (var i = 0; i < workouts.length && i < 7; i++) { %>		
+						<% for (var i = 0; i < workouts.length && i < 7; i++) { %>
 							<tr>
 <!--								<td><%= JSON.stringify(workouts[i]) %></td>-->
 								<td><%= workouts[i].date %></td>
