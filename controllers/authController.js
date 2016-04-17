@@ -79,7 +79,6 @@ passport.use('local-login', new LocalStrategy({ passReqToCallback: true },
 }));
 
 
-
 exports.authenticateLogin = passport.authenticate('local-login', {
     successRedirect: '/',
     failureRedirect: '/',

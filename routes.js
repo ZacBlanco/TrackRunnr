@@ -17,6 +17,7 @@ module.exports = function(app) {
     app.get('/profile', isLoggedIn, function(req, res) {
         renderController.renderProfile(req, res);
 	});
+    app.post('/addWorkout', isLoggedIn, renderController.renderAddWorkout);
 
     function isLoggedIn(req, res, next) {
 		console.log("request authenticated: " + req.isAuthenticated());
@@ -43,6 +44,9 @@ module.exports = function(app) {
         .get(workoutController.getWorkout)
         .put(workoutController.updateWorkout)
         .delete(workoutController.deleteWorkout);
+
+
+
 
     // Register all Routers
     app.use('/api', apiRouter);
