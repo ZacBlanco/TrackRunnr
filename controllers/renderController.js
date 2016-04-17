@@ -23,11 +23,12 @@ exports.renderSignup = function(req, res) {
 };
 
 exports.renderProfile = function(req, res) {
-    var workouts;
     workoutController.getWorkouts(req.user.username, function(err, w) {
-        workouts = w;
+		var data = {workouts: w,
+				   	user: req.user 
+				   }
+		res.render('pages/profile.ejs', data);
     });
-    res.render('pages/profile.ejs', {
-        workouts: workouts,
-    });
+	
+    
 };
