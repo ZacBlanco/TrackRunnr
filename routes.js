@@ -1,6 +1,7 @@
 var express = require('express');
 var userController = require('./controllers/userController');
 var renderController = require('./controllers/renderController');
+var viewsController = require('./controllers/viewsController');
 var authController = require('./controllers/authController');
 var workoutController = require('./controllers/api/workoutApiController');
 
@@ -21,7 +22,8 @@ module.exports = function(app) {
         renderController.renderViz(req, res);
 	});
     app.get('/addWorkout', isLoggedIn, renderController.renderAddWorkout);
-    app.post('/submitWorkout', isLoggedIn, authController.authenticateSubmitWorkout);
+//    app.post('/submitWorkout', isLoggedIn, authController.authenticateSubmitWorkout);
+	app.post('/submitWorkout', isLoggedIn, viewsController.submitWorkout);
 
     function isLoggedIn(req, res, next) {
 		console.log("request authenticated: " + req.isAuthenticated());

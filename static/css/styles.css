@@ -14,4 +14,9 @@ input { display: table-cell; }
 
 h1, h2, h3, h4, h5 {
 	color: crimson !important;
+	font-weight: 200 !important;
+}
+
+a:hover {
+	text-decoration: none !important;
 }
