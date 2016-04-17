@@ -39,7 +39,6 @@ describe('Workouts Controller Tests', function(done) {
 			.send("username=" + workoutUser)
 			.send("password=Doe")
 			.end(function(err, res) {
-				console.log(err);
 				if(!err){
 					res.status.should.equal(200);
 					done();
@@ -89,7 +88,6 @@ describe('Workouts Controller Tests', function(done) {
 			.send(badWorkoutData)
 		.expect('Content-Type', /json/)
 		.end(function(err, res) {
-//			console.log(res.body);
 			res.status.should.equal(400);
 			res.body.message.should.not.equal("Workout Saved Successfully!");
 			assert.equal(res.body.id, undefined, 'Makes sure workout id is undefined');

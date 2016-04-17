@@ -1,6 +1,5 @@
 
 exports.renderLogin = function(req, res) {
-    console.log('in renderlogin');
     res.render('pages/index.ejs', {
         loggedIn: req.isAuthenticated(),
         user: req.user,
