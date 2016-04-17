@@ -47,7 +47,7 @@ describe('Workouts Controller Tests', function(done) {
 				}
 		});
 	})
-	
+
 	it('Successful POST to :username/workouts', function(done) {
 		request(server).post('/api/users/' + workoutUser + "/workouts")
 			.type('form')
@@ -60,10 +60,10 @@ describe('Workouts Controller Tests', function(done) {
 			res.body.id.should.not.equal(undefined);
 			workoutID = res.body.id;
 			done();
-			
+
 		});
 	});
-	
+
 	it('Successful GET to :username/workouts', function(done) {
 		request(server).get('/api/users/' + workoutUser + "/workouts")
 		.end(function(err, res) {
@@ -77,9 +77,9 @@ describe('Workouts Controller Tests', function(done) {
 					res.body.distance.should.equal(workoutData.distance);
 				}
 			}
-			
+
 			done();
-			
+
 		});
 	});
 	it('Malformed POST to :username/workouts', function(done) {
@@ -88,7 +88,6 @@ describe('Workouts Controller Tests', function(done) {
 			.send(badWorkoutData)
 		.expect('Content-Type', /json/)
 		.end(function(err, res) {
-//			console.log(res.body);
 			res.status.should.equal(400);
 			res.body.message.should.not.equal("Workout Saved Successfully!");
 			assert.equal(res.body.id, undefined, 'Makes sure workout id is undefined');
@@ -129,7 +128,7 @@ describe('Workouts Controller Tests', function(done) {
 				res.body.username.should.equal(updatedWorkoutData.username);
 				assert.equal(new Date(res.body.date).getTime(), new Date(updatedWorkoutData.date).getTime(), 'Matching updated date');
 				done();
-				
+
 			});
 		});
 	});
@@ -155,7 +154,7 @@ describe('Workouts Controller Tests', function(done) {
 				res.body.username.should.equal(workoutData.username);
 				assert.equal(new Date(res.body.date).getTime(), new Date(workoutData.date).getTime(), 'Matching updated date');
 				done();
-				
+
 			});
 		});
 	});
@@ -188,7 +187,7 @@ describe('Workouts Controller Tests', function(done) {
 					res.body.message.should.equal("Workout " + workoutID + " deleted")
 					done();
 		});
-				
+
 			});
 		});
 	});
@@ -197,11 +196,11 @@ describe('Workouts Controller Tests', function(done) {
 		.end(function(err, res) {
 			res.status.should.equal(400);
 			res.body.message.should.equal("No workout exists for id: 987badWorkoutID123");
-			done();	
+			done();
 		});
-			
+
 	});
-	
+
 	after(function(done) {
 		//Delete the workout user
 		request(server)

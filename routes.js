@@ -1,48 +1,18 @@
-var userController = require('./controllers/userController');
 var express = require('express');
+var userController = require('./controllers/userController');
+var renderController = require('./controllers/renderController');
+var authController = require('./controllers/authController');
+var workoutController = require('./controllers/workoutEntryController');
 
-module.exports = function(app, passport) {
-
+module.exports = function(app) {
     // ====================== Normal Routing ========================//
-    app.get('/', function(req, res, next) {
-            isLoggedIn(req, res, next, false);
-        }, function(req, res) {
-        res.render('pages/index.ejs', {
-                loggedIn: req.isAuthenticated(),
-                user: req.user,
-                message: req.flash('loginMessage'),
-                dmessage: req.flash('deleteMessage'),
-                lmessage: req.flash('logoutMessage')
-            });
-    });
-    // Will get post details from /login
-    app.post('/login', passport.authenticate('local-login', {
-        successRedirect: '/',
-        failureRedirect: '/',
-        failureFlash: true
-    }))
-    app.get('/logout', function(req, res) {
-        req.logout();
-        req.flash('logoutMessage', 'User successfully logged out!');
-        res.redirect('/');
-    });
-    app.get('/signup', function(req, res) {
-        res.render('pages/signup.ejs', {
-            message: req.flash('signupMessage')
-        });
-    });
-    app.post('/deleteUser', passport.authenticate('local-delete', {
-        successRedirect: '/',
-        failureRedirect: '/',
-        failureFlash: true
-    }));
-
-    app.post('/signup', passport.authenticate('local-signup', {
-        successRedirect: '/',
-        failureRedirect: '/signup',
-        failureFlash: true
-    }));
-
+    app.get('/', function(req, res, next) { isLoggedIn(req, res, next, false); },
+        renderController.renderLogin);
+    app.post('/login', authController.authenticateLogin);
+    app.get('/logout', renderController.renderLogout);
+    app.get('/signup', renderController.renderSignup);
+    app.post('/deleteUser', authController.authenticateDelete);
+    app.post('/signup', authController.authenticateSignup);
 
     function isLoggedIn(req, res, next, shouldRedirect) {
         if (req.isAuthenticated()) {
@@ -63,6 +33,14 @@ module.exports = function(app, passport) {
     apiRouter.route('/users/:username')
         .delete(userController.deleteUser)
         .get(userController.getUser);
+    apiRouter.route('/users/:username/workouts')
+        .get(workoutController.getWorkouts)
+        .post(workoutController.postWorkout)
+        .delete(workoutController.deleteWorkouts);
+    apiRouter.route('/users/:username/workouts/:id')
+        .get(workoutController.getWorkout)
+        .put(workoutController.updateWorkout)
+        .delete(workoutController.deleteWorkout);
 
     // Register all Routers
     app.use('/api', apiRouter);

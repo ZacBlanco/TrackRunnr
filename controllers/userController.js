@@ -52,6 +52,7 @@ exports.deleteUser = function(req, res) {
             res.json({ message: "User deleted!"});
     })
 }
+
 // Add a GET endpoint at /api/users/:username
 exports.getUser = function(req, res) {
     User.findOne({}, { username: req.params.username }, function(err, user) {
