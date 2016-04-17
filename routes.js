@@ -17,7 +17,8 @@ module.exports = function(app) {
     app.get('/profile', isLoggedIn, function(req, res) {
         renderController.renderProfile(req, res);
 	});
-    app.post('/addWorkout', isLoggedIn, renderController.renderAddWorkout);
+    app.get('/addWorkout', isLoggedIn, renderController.renderAddWorkout);
+    app.post('/submitWorkout', isLoggedIn, authController.authenticateSubmitWorkout);
 
     function isLoggedIn(req, res, next) {
 		console.log("request authenticated: " + req.isAuthenticated());
