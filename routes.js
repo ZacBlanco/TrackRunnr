@@ -13,6 +13,7 @@ module.exports = function(app) {
     app.get('/signup', renderController.renderSignup);
     app.post('/deleteUser', authController.authenticateDelete);
     app.post('/signup', authController.authenticateSignup);
+    app.get('/profile', authController.authenticateLogin, renderController.renderProfile);
 
     function isLoggedIn(req, res, next, shouldRedirect) {
         if (req.isAuthenticated()) {
