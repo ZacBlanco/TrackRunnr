@@ -1,40 +1,38 @@
-// Load dependencies
+// Setup
 var express = require('express');
-var mongoose = require('mongoose');
-var bodyParser = require('body-parser');
-var passport = require('passport');
-
-// Load controllers
-var exampleController = require('./controllers/exampleController');
-var userController = require('./controllers/userController');
-var authController = require('./controllers/auth');
-
 var app = express();
 var port = process.env.PORT || 4777;
-mongoose.connect('mongodb://localhost/trackrunnr');
+var mongoose = require('mongoose');
+var passport = require('passport');
+var flash = require('connect-flash');
+var morgan = require('morgan');
+var cookieParser = require('cookie-parser');
+var bodyParser = require('body-parser');
+var session = require('express-session');
+var configDB = require('./config/database.js');
+    // Load controllers
+var exampleController = require('./controllers/exampleController');
+var userController = require('./controllers/userController');
+    // Load settings
 
-// Middleware Declarations //
-app.use(bodyParser.urlencoded({extended: true}));
-app.use(express.static('static'));
+mongoose.connect(configDB.url);
+
+require('./config/passport')(passport);
+
+app.use(morgan('dev'));
+app.use(cookieParser());
+app.use(bodyParser());
+// app.use(express.static('static'));
+// app.engine('ejs', require('ejs').renderFile);
+app.set('view engine', 'ejs');
+app.set('views', __dirname+'/views');
+app.use(session({ secret: 'secretpassword' }));
 app.use(passport.initialize());
+app.use(passport.session());
+app.use(flash());
 
-
-// Router Declarations
-// API Router
-var apiRouter = express.Router();
-apiRouter.route('/example').get(exampleController.getTestJSON);
-apiRouter.route('/users')
-    .post(userController.postUser)
-    .get(userController.getUsers);
-apiRouter.route('/users/:username')
-    .delete(userController.deleteUser)
-    .get(userController.getUser);
-
-
-
-// Register all Routers
-app.use('/api', apiRouter);
-
+// Setup routing
+require('./app/routes.js')(app, passport, express, userController);
 var server = app.listen(port);
 
 console.log("Tracking runners on port: " + port);

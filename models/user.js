@@ -34,14 +34,14 @@ UserSchema.pre('save', function(callback) {
     });
 });
 
+UserSchema.methods.generateHash = function(password) {
+    return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null);
+};
+
+
 // Method to verify passwords
-UserSchema.methods.verifyPassword = function(password, cb) {
-    bcrypt.compare(password, this.password, function(err, isMatch) {
-        if (err)
-            return cb(err);
-        else
-            cb(null, isMatch);
-    })
+UserSchema.methods.verifyPassword = function(password) {
+    bcrypt.compareSync(password, this.password);
 }
 
 // Export the model

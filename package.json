@@ -7,11 +7,18 @@
     "bcrypt-nodejs": "0.0.3",
     "body-parser": "^1.15.0",
     "chai": "^3.5.0",
+    "connect-flash": "^0.1.1",
+    "cookie-parser": "^1.4.1",
+    "ejs": "^2.4.1",
     "express": "^4.13.4",
+    "express-session": "^1.13.0",
+    "method-override": "^2.3.5",
     "mocha": "^2.4.5",
     "mongoose": "^4.4.12",
+    "morgan": "^1.7.0",
     "passport": "^0.3.2",
     "passport-http": "^0.3.0",
+    "passport-local": "^1.0.0",
     "should": "^8.3.1",
     "supertest": "^1.2.0"
   },
@@ -22,7 +29,7 @@
     "posttest": "mongo admin --eval \"db.shutdownServer()\"",
     "prestart": "sudo mongod --fork --logpath /var/log/mongo-trackrunnr.log --dbpath /data/trackrunnr",
     "start": "node server.js",
-	"kill-mongo": "mongo admin --eval \"db.shutdownServer()\""
+    "kill-mongo": "mongo admin --eval \"db.shutdownServer()\""
   },
   "author": "Zac Blanco, Richard Ahn",
   "license": "ISC"
