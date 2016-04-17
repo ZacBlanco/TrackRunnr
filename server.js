@@ -34,6 +34,10 @@ apiRouter.route('/users/:username/workouts')
 	.get(workoutController.getWorkouts)
 	.post(workoutController.postWorkout)
 	.delete(workoutController.deleteWorkouts);
+apiRouter.route('/users/:username/workouts/:id')
+	.get(workoutController.getWorkout)
+	.put(workoutController.updateWorkout)
+	.delete(workoutController.deleteWorkout);
 
 // Register all Routers
 app.use('/api', apiRouter);

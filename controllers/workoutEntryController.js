@@ -18,7 +18,7 @@ exports.getWorkouts = function(req, res) {
         else
             res.json(workouts);
     });
-}
+};
 
 // A POST endpoint at /api/users/:username/workout
 exports.postWorkout = function(req, res) {
@@ -52,8 +52,8 @@ exports.postWorkout = function(req, res) {
 	
 	workout.save(function(err, entry) {
 		if(err) {
-			res.status = 400;
-			res.send(errMsg);
+			res.status(400);
+			res.send(err);
 		} else {
 			
 			resJson = {
@@ -65,18 +65,89 @@ exports.postWorkout = function(req, res) {
 			res.json(resJson);
 		}
 	});
-}
+};
 
 exports.deleteWorkouts = function(req, res) {
 	
 	Workout.remove({ username: req.params.username}, function(err) {
 		if(err) {
-			res.status = 400;
+			res.status(400);
 			res.send(err);
 		} else {
 			res.send({message: "All workouts under " + req.params.username +" deleted"});
 		}
 	});
-	
-	
-}
+};
+
+exports.deleteWorkout = function(req, res) {
+	Workout.remove({ _id: req.params.id}, function(err) {
+		if(err) {
+			res.status(400);
+			res.send(err);
+		} else {
+			res.send({message: "Workout " + req.params.id + " deleted"});
+		}
+	});
+};
+
+
+
+exports.getWorkout = function(req, res) {
+	Workout.findById(req.params.id, function(err, workout) {
+        if (err) {
+			res.status(400);
+            res.json({message: "No workout exists for id: " + req.params.id })
+        } else if(workout !== null) {
+			res.json(workout);
+		} else {
+			res.status(500);
+			res.json({message: "No workout exists for id: " + req.params.id })
+		}
+    });
+};
+
+
+exports.updateWorkout = function(req, res) {
+	Workout.findById(req.params.id, function(err, workout) {
+		if (err) {
+            res.send(err);
+        } else {
+			
+			//Check for bad parameters
+			var data = req.body;
+			if(typeof(req.params.username) == 'undefined') {
+				res.status(400);
+				res.json({message: "username required to update data"});
+				return;
+			} else if(typeof(data.date) == 'undefined' ) {
+				res.status(400);
+				res.json({message: "date required to update data"});
+				return;
+			} else if(typeof(data.totalTime) == 'undefined') {
+				res.status(400);
+				res.json({message: "total time required to update data"});
+				return;
+			} else if(typeof(data.distance) == 'undefined') {
+				res.status(400);
+				res.json({message: "distance required to update data"});
+				return;
+			} 
+			
+			workout.username = req.params.username;
+			workout.date = data.date;
+			workout.difficulty = data.difficulty;
+			workout.totalTime = data.totalTime;
+			workout.distance = data.distance;
+			
+			workout.save(function(err, entry){
+				if(err) {
+					res.status(400);
+					res.send(err);
+				} else {
+					res.json(workout);
+				}
+			});
+		}
+    });
+};
+
