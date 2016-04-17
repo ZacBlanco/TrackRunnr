@@ -2,7 +2,7 @@ var express = require('express');
 var userController = require('./controllers/userController');
 var renderController = require('./controllers/renderController');
 var authController = require('./controllers/authController');
-var workoutController = require('./controllers/workoutEntryController');
+var workoutController = require('./controllers/api/workoutApiController');
 
 module.exports = function(app) {
     // ====================== Normal Routing ========================//
