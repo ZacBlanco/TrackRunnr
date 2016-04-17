@@ -14,7 +14,7 @@ module.exports = function(passport) {
     });
 
 
-    passport.use('local-signup', new LocalStrategy({ passReqToCallback: true }, 
+    passport.use('local-signup', new LocalStrategy({ passReqToCallback: true },
 					function(req, username, password, done) {
             			process.nextTick(function() {
 							// Find account with the passed in username
@@ -42,6 +42,20 @@ module.exports = function(passport) {
             			});
     				}));
 
+    passport.use('local-delete', new LocalStrategy({ passReqToCallback: true },
+                    function(req, username, password, done) {
+                            User.findOneAndRemove({ 'username': username}, function(err, user) {
+                                if (err)
+                                    return done(err);
+                                if (!user)
+                                    return done(null, false, req.flash('deleteMessage', 'Can\'t delete a user that doesn\'t exist'));
+                                else {
+                                    // Found user to delete
+                                    req.logout();
+                                    return done(null, user, req.flash('deleteMessage', 'Successfully deleted the account!'));
+                                }
+                            });
+                    }));
 
     passport.use('local-login', new LocalStrategy({
         passReqToCallback: true

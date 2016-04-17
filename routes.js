@@ -10,9 +10,12 @@ module.exports = function(app, passport) {
         res.render('pages/index.ejs', {
                 loggedIn: req.isAuthenticated(),
                 user: req.user,
-                message: req.flash('loginMessage')
+                message: req.flash('loginMessage'),
+                dmessage: req.flash('deleteMessage'),
+                lmessage: req.flash('logoutMessage')
             });
     });
+    // Will get post details from /login
     app.post('/login', passport.authenticate('local-login', {
         successRedirect: '/',
         failureRedirect: '/',
@@ -20,6 +23,7 @@ module.exports = function(app, passport) {
     }))
     app.get('/logout', function(req, res) {
         req.logout();
+        req.flash('logoutMessage', 'User successfully logged out!');
         res.redirect('/');
     });
     app.get('/signup', function(req, res) {
@@ -27,12 +31,17 @@ module.exports = function(app, passport) {
             message: req.flash('signupMessage')
         });
     });
+    app.post('/deleteUser', passport.authenticate('local-delete', {
+        successRedirect: '/',
+        failureRedirect: '/',
+        failureFlash: true
+    }));
 
     app.post('/signup', passport.authenticate('local-signup', {
         successRedirect: '/',
         failureRedirect: '/signup',
         failureFlash: true
-    }))
+    }));
 
 
     function isLoggedIn(req, res, next, shouldRedirect) {
