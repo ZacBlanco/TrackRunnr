@@ -26,7 +26,7 @@ module.exports = function(app) {
 	app.post('/submitWorkout', isLoggedIn, viewsController.submitWorkout);
 
     function isLoggedIn(req, res, next) {
-		console.log("request authenticated: " + req.isAuthenticated());
+//		console.log("request authenticated: " + req.isAuthenticated());
         if (req.isAuthenticated()) {
             return next();
         } else {
