@@ -8,8 +8,6 @@ var bodyParser = require('body-parser');
 var session = require('express-session');
 var config = require('./config')
 
-// Load controllers
-
 // Load settings
 var app = express();
 var port = process.env.PORT || config.port;
