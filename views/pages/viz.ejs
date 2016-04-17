@@ -14,21 +14,11 @@
 		<main>
 
 			<div class="container">
+				<div id="data-holder" class="well hidden">
+					<%- JSON.stringify(workouts) %>
+				</div>
+				<div id="chart1"></div>
 				
-				<div class="row">
-					<div class="col-xs-5 col-xs-push-3">
-					<% if (loggedIn){ %>
-						<a class="col-xs-12 btn btn-primary entry-button">Add an entry</a>
-					<% } %>
-					</div>
-				</div>
-				<div class="row buffer-top">
-					<div class="col-xs-5 col-xs-push-3">
-					<% if (loggedIn){ %>
-						<a  href="/viz" class="col-xs-12 btn btn-primary entry-button">See Visualizations</a>
-					<% } %>
-					</div>
-				</div>
 
 			</div>
 			<hr>
@@ -39,7 +29,9 @@
 			<% include ../partials/footer %>
 		</footer>
 
+		<% include ../partials/d3 %>
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+		<script src="/js/viz.js"></script>
 	</body>
 
 </html>

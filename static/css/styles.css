@@ -4,6 +4,6 @@ p     { display: table-row;  }
 label { display: table-cell; }
 input { display: table-cell; }
 
-.tall {
-	min-height:800px;
+.buffer-top {
+	margin-top: 15px;
 }

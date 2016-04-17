@@ -17,6 +17,10 @@ module.exports = function(app) {
     app.get('/profile', isLoggedIn, function(req, res) {
         renderController.renderProfile(req, res);
 	});
+	
+	app.get('/viz', isLoggedIn, function(req, res) {
+        renderController.renderViz(req, res);
+	});
 
     function isLoggedIn(req, res, next) {
 		console.log("request authenticated: " + req.isAuthenticated());

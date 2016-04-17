@@ -22,7 +22,7 @@ mongoose.connect(config.db.url);
 app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
-// app.use(express.static('static'));
+ app.use(express.static('static'));
 // app.engine('ejs', require('ejs').renderFile);
 app.set('view engine', 'ejs');
 app.set('views', __dirname+'/views');

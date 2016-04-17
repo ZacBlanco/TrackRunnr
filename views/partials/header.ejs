@@ -1,6 +1,6 @@
 <div class="container">
 	<div class="row">
-		<h1 class="col-sm-push-4">TrackRunnr</h1>
+		<a class="" href="/"><h1 class="col-sm-push-4">TrackRunnr</h1></a>
 		<div class="col-md-5 col-md-push-7">
             <!-- if (logged in), show a greeting-->
             <% if (user){ %>
@@ -12,10 +12,10 @@
                 <div class="btn-group" role="group">
 					<a class="btn btn-default btn-lg" href="/profile" role="group">Profile</a>
 					<a class="btn btn-default btn-lg" href="/logout" role="group">Logout</a>
-					<form class="btn btn-default bg-danger" method="post" action="/deleteUser">
+					<form class="btn btn-default clearfix" method="post" action="/deleteUser">
 					<input type="hidden" name="username" value="<%= user.username %>"></input>
 					<input type="hidden" name="password" value="dummy_password"></input>
-					<input type="submit" value="Delete Account" class="btn"></input>
+					<input type="submit" value="Delete Account" class="btn-default btn btn"></input>
 				</form>
 				</div>
 					
