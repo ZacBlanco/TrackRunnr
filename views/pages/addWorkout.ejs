@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+
+<html>
+
+	<head>
+		<% include ../partials/head %>
+	</head>
+
+	<body>
+		<header class="jumbotron">
+			<% include ../partials/header %>
+		</header>
+
+		<div class="container">
+			<div class="col-md-6 col-md-push-3">
+				<form method="post" action="/submitWorkout">
+					<input type="hidden" name="username" value="<%= user.username %>">
+					<fieldset class="form-group">
+						<label for="workoutDate"></label>
+						<input id="workoutDate" type="date" name="date" class="form-control">
+					</fieldset>
+					<fieldset class="form-group">
+						<label for="workoutDifficulty" name="difficulty"></label>
+						<select class="c-select">
+							<option selected>Rate your workout Difficulty</option>
+							<option value="1">1</option>
+							<option value="2">2</option>
+							<option value="3">3</option>
+							<option value="3">3</option>
+							<option value="4">4</option>
+							<option value="6">5</option>
+							<option value="7">7</option>
+							<option value="8">8</option>
+							<option value="9">9</option>
+							<option value="10">10</option>
+						</select>
+					</fieldset>
+					<fieldset class="form-group">
+						<label for="workoutHour"></label>
+						<input id="workoutHour" type="number" name="timeHour" class="form-control" min="0" max="23">
+						<label for="workoutMinute"></label>
+						<input id="workoutMinute" step="1" type="number" name="totalTime" class="form-control" min="0" max=59>
+						<label for="workoutSecond"></label>
+						<input id="workoutSecond" step="1" type="number" name="totalTime" class="form-control" min="0" max="59">
+					</fieldset>
+					<fieldset class="form-group">
+						<label for="workoutDistance"></label>
+						<input id="workoutDistance" step="0.01" type="number" name="totalTime" class="form-control">
+					</fieldset>
+					<button type="submit" class="btn btn-primary">Submit</button>
+				</form>
+			</div>
+			
+		</div>
+
+		<footer>
+			<% include ../partials/footer %>
+		</footer>
+
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+	</body>
+
+</html>
