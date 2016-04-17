@@ -2,7 +2,7 @@ var request = require('supertest');
 var server = require('../server');
 var chai = require('chai');
 var should = require('should');
-var jsdom = require('jsdom');
+//var jsdom = require('jsdom');
 var assert = chai.assert;
 
 /*
