@@ -15,33 +15,15 @@ var UserSchema = new mongoose.Schema({
     }
 });
 
-// Add a hook(always called before) to the user.save() function
-UserSchema.pre('save', function(callback) {
-    var user = this;
 
-    // If the password hasn't changed, dont do anything
-    if (!user.isModified('password')) return callback();
+UserSchema.methods.generateHash = function(password) {
+    return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null);
+};
 
-    // Rehash the password if it has changed
-    bcrypt.genSalt(5, function(err, salt) {
-        if (err) return callback(err);
-
-        bcrypt.hash(user.password, salt, null, function(err, hash) {
-            if (err) return callback(err);
-            user.password = hash;
-            callback();
-        });
-    });
-});
 
 // Method to verify passwords
-UserSchema.methods.verifyPassword = function(password, cb) {
-    bcrypt.compare(password, this.password, function(err, isMatch) {
-        if (err)
-            return cb(err);
-        else
-            cb(null, isMatch);
-    })
+UserSchema.methods.verifyPassword = function(password) {
+    return bcrypt.compareSync(password, this.password);
 }
 
 // Export the model

@@ -1,0 +1,49 @@
+<div class="container">
+	<div class="row">
+		<h1 class="col-sm-push-4">TrackRunnr</h1>
+		<div class="col-md-4 col-md-push-8">
+            <!-- if (logged in), show a greeting-->
+            <% if (loggedIn){ %>
+            <div class="greeting">
+                Welcome, <%= user.username %>!
+				<a class="btn btn-primary">Profile</a>
+                <hr>
+                <a href="/logout">Logout</a>
+				<hr>
+				<form class="form" method="post" action="/deleteUser">
+					<input type="hidden" name="username" value="<%= user.username %>"></input>
+					<input type="hidden" name="password" value="dummy_password"></input>
+					<input type="submit" value="Delete" class="btn btn-danger"></input>
+				</form>
+            </div>
+
+            <!-- if not, show a login and signup page -->
+            <% } else { %>
+			<% if (message.length > 0) { %>
+        		<div class="alert alert-danger authMessage"><%= message %></div>
+    		<% } %>
+			<% if (dmessage.length > 0) { %>
+        		<div class="alert alert-danger authMessage"><%= dmessage %></div>
+    		<% } %>
+			<% if (lmessage.length > 0) { %>
+        		<div class="alert alert-info authMessage"><%= lmessage %></div>
+    		<% } %>
+			<form class="form-inline" method="post" action="/login">
+				<p class="form-group">
+					<label for="username">Name</label>
+					<input type="text" class="form-control" name="username" placeholder="Enter a username...">
+				</p>
+				<p class="form-group">
+					<label for="password">Password</label>
+					<input type="password" class="form-control" name="password" value="">
+				</p>
+				<p>
+					<hr>
+					<button type="submit" class="btn btn-primary">Login </button>
+					or <a href="/signup">signup</a> instead.
+				</p>
+			</form>
+            <% } %>
+		</div>
+	</div>
+</div>
