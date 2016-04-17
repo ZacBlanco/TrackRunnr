@@ -10,25 +10,45 @@ module.exports = function(app, passport, express) {
         });
     });
     app.get('/login', function(req, res) {
-        res.render('pages/login.ejs', { message: req.flash('loginMessage')});
+        res.render('pages/login.ejs');
     });
-    app.post('/login', passport.authenticate('local-login', {
-        successRedirect: '/',
-        failureRedirect: '/',
-        failureFlash: true
-    }));
+    app.post('/login', function(req, res, next) {
+        passport.authenticate('local-login', function(err, user, info) {
+            if (err) { return next(err); }
+            if (!user) { return res.redirect('/login'); }
+            req.logIn(user, function(err) {
+                if (err) { return next(err); }
+                return res.redirect('/');
+            });
+        }
+        , {
+            successRedirect: '/',
+            failureRedirect: '/',
+            failureFlash: true
+        })(req, res, next);
+    });
     app.get('/logout', function(req, res) {
         req.logout();
         res.redirect('/');
     });
     app.get('/signup', function(req, res) {
-        res.render('pages/signup.ejs', { message: req.flash('signupMessage')});
+        res.render('pages/signup.ejs');
     });
-    app.post('/signup', passport.authenticate('local-signup', {
-        successRedirect: '/',
-        failureRedirect: '/',
-        failureFlash: true
-    }))
+    app.post('/signup', function(req, res, next) {
+        passport.authenticate('local-signup', function(err, user, info) {
+            if (err) { return next(err); }
+            if (!user) { return res.redirect('/login'); }
+            req.logIn(user, function(err) {
+                if (err) { return next(err); }
+                return res.redirect('/');
+            });
+        }
+        , {
+            successRedirect: '/',
+            failureRedirect: '/',
+            failureFlash: true
+        })(req, res, next);
+    });
 
     function isLoggedIn(req, res, next) {
         if (req.isAuthenticated()) {
