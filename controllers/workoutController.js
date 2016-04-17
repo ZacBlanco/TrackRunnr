@@ -16,20 +16,20 @@ exports.getWorkouts = function(user, callback) {
         } else {
             callback(err, workouts);
 		}
-    }); 
+    });
 };
 
 
 //Put a new workout for a user
 exports.postWorkout = function(user, data, callback) {
-	
+
 	var workout = new Workout();
 	workout.username = user;
 	workout.date = data.date;
 	workout.difficulty = data.difficulty;
 	workout.totalTime = data.totalTime;
 	workout.distance = data.distance;
-	
+
 	workout.save(function(err, entry) {
 		callback(err, entry);
 	});
@@ -46,7 +46,7 @@ exports.deleteWorkouts = function(user, callback) {
 };
 
 exports.deleteWorkout = function(id, callback) {
-	
+
 	Workout.remove({ _id: id}, function(err) {
 		if(err) {
 			callback(err);
@@ -70,31 +70,15 @@ exports.updateWorkout = function(id, data, callback) {
 		if (err) {
             callback(err, workout);
         } else {
-			
+
 			workout.date = data.date;
 			workout.difficulty = data.difficulty;
 			workout.totalTime = data.totalTime;
 			workout.distance = data.distance;
-			
+
 			workout.save(function(err, entry){
 				callback(err, entry);
 			});
 		}
     });
 };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

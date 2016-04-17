@@ -1,3 +1,4 @@
+var workoutController = require('./workoutController');
 
 exports.renderLogin = function(req, res) {
     res.render('pages/index.ejs', {
@@ -18,5 +19,15 @@ exports.renderLogout = function(req, res) {
 exports.renderSignup = function(req, res) {
     res.render('pages/signup.ejs', {
         message: req.flash('signupMessage')
+    });
+};
+
+exports.renderProfile = function(req, res) {
+    var workouts;
+    workoutController.getWorkouts(req.user.username, function(err, w) {
+        workouts = w;
+    });
+    res.render('pages/profile.ejs', {
+        workouts: workouts,
     });
 };
