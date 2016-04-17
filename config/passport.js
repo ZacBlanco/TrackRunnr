@@ -15,9 +15,10 @@ module.exports = function(passport) {
 
 
     passport.use('local-signup', new LocalStrategy(
-        function(username, password, done) {
-            console.log(username);
-            console.log(password);
+        {
+            passReqToCallback: true
+        }
+        , function(req, username, password, done) {
             process.nextTick(function() {
 
             // Find account with the passed in username
@@ -27,7 +28,7 @@ module.exports = function(passport) {
 
                 // Check for existing username
                 if (user) {
-                    return done(null, false, { message: 'existing username'});
+                    return done(null, false, req.flash('signupMessage', 'This username already exists'));
                 } else {
                     // Create new account
                     var newUser = new User();
@@ -49,8 +50,10 @@ module.exports = function(passport) {
     }));
 
 
-    passport.use('local-login', new LocalStrategy(
-    function(username, password, done) {
+    passport.use('local-login', new LocalStrategy({
+        passReqToCallback: true
+    },
+    function(req, username, password, done) {
         // Check if username exists
         User.findOne({ 'username' :  username }, function(err, user) {
             //
@@ -59,11 +62,11 @@ module.exports = function(passport) {
 
             // if no user is found, return the message
             if (!user)
-                return done(null, false, { message: 'not found'});
+                return done(null, false, req.flash('loginMessage', 'No user found.'));
 
             // if the user is found but the password is wrong
-            if (!user.validPassword(password))
-                return done(null, false, { message: 'wrong password'});
+            if (!user.verifyPassword(password))
+                return done(null, false, req.flash('loginMessage', 'Incorrect password.'));
 
             // all is well, return successful user
             return done(null, user);

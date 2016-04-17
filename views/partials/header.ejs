@@ -12,6 +12,9 @@
 
             <!-- if not, show a login and signup page -->
             <% } else { %>
+			<% if (message.length > 0) { %>
+        		<div class="alert alert-danger"><%= message %></div>
+    		<% } %>
 			<form class="form-inline" method="post" action="/login">
 				<div class="form-group">
 					<label for="username">Name</label>
