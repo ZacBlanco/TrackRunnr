@@ -16,7 +16,7 @@ var port = process.env.PORT || config.port;
 
 // Load controllers
 var userController = require('./controllers/userController');
-var workoutController = require('./controllers/workoutEntryController');
+var workoutController = require('./controllers/workoutController');
 var authController = require('./controllers/authController');
 
 mongoose.connect(config.db.url);
