@@ -4,7 +4,7 @@
 		<div class="col-md-4 col-md-push-8">
             <!-- if (logged in), show a greeting-->
             <% if (loggedIn){ %>
-            <div>
+            <div class="greeting">
                 Welcome, <%= user.username %>!
                 <hr>
                 <a href="/logout">Logout</a>
@@ -19,13 +19,13 @@
             <!-- if not, show a login and signup page -->
             <% } else { %>
 			<% if (message.length > 0) { %>
-        		<div class="alert alert-danger"><%= message %></div>
+        		<div class="alert alert-danger authMessage"><%= message %></div>
     		<% } %>
 			<% if (dmessage.length > 0) { %>
-        		<div class="alert alert-danger"><%= dmessage %></div>
+        		<div class="alert alert-danger authMessage"><%= dmessage %></div>
     		<% } %>
 			<% if (lmessage.length > 0) { %>
-        		<div class="alert alert-info"><%= lmessage %></div>
+        		<div class="alert alert-info authMessage"><%= lmessage %></div>
     		<% } %>
 			<form class="form-inline" method="post" action="/login">
 				<div class="form-group">
@@ -34,7 +34,7 @@
 				</div>
 				<div class="form-group">
 					<label for="password">Password</label>
-					<input type="password" class="form-control" name="password">
+					<input type="password" class="form-control" name="password" value="">
 				</div>
 				<button type="submit" class="btn btn-primary">Login </button>
                 <div>
