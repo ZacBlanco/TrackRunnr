@@ -1,38 +1,72 @@
 // Setup
 var express = require('express');
-var app = express();
-var port = process.env.PORT || 4777;
 var mongoose = require('mongoose');
 var passport = require('passport');
 var flash = require('connect-flash');
-var morgan = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var session = require('express-session');
-var configDB = require('./config/database.js');
-    // Load controllers
-var exampleController = require('./controllers/exampleController');
+var passportConfig = require('./config/passport');
+var passportSetup = require('./routes');
+var config = require('./config')
+
+// Load controllers
 var userController = require('./controllers/userController');
-    // Load settings
 
-mongoose.connect(configDB.url);
+// Load settings
+var app = express();
+var port = process.env.PORT || config.port;
 
-require('./config/passport')(passport);
+// Load controllers
+var userController = require('./controllers/userController');
+var workoutController = require('./controllers/workoutEntryController');
 
-app.use(morgan('dev'));
+
+passportConfig(passport);
+mongoose.connect(config.db.url);
+
 app.use(cookieParser());
-app.use(bodyParser());
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: true}));
 // app.use(express.static('static'));
 // app.engine('ejs', require('ejs').renderFile);
 app.set('view engine', 'ejs');
 app.set('views', __dirname+'/views');
-app.use(session({ secret: 'secretpassword' }));
+app.use(session({ secret: 'secretpassword',
+				resave: true,
+    				saveUninitialized: true}));
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(flash());
 
+
+// Router Declarations
+// API Router
+var apiRouter = express.Router();
+
+apiRouter.route('/users')
+    .post(userController.postUser)
+    .get(userController.getUsers);
+apiRouter.route('/users/:username')
+    .delete(userController.deleteUser)
+    .get(userController.getUser);
+
+apiRouter.route('/users/:username/workouts')
+	.get(workoutController.getWorkouts)
+	.post(workoutController.postWorkout)
+	.delete(workoutController.deleteWorkouts);
+apiRouter.route('/users/:username/workouts/:id')
+	.get(workoutController.getWorkout)
+	.put(workoutController.updateWorkout)
+	.delete(workoutController.deleteWorkout);
+
+// Register all Routers
+app.use('/api', apiRouter);
+
 // Setup routing
-require('./app/routes.js')(app, passport, express, userController);
+passportSetup(app, passport);
+
+// Start listening 
 var server = app.listen(port);
 
 console.log("Tracking runners on port: " + port);

@@ -1,6 +1,7 @@
-var userController = require('../controllers/userController');
+var userController = require('./controllers/userController');
+var express = require('express');
 
-module.exports = function(app, passport, express) {
+module.exports = function(app, passport) {
 
     // ====================== Normal Routing ========================//
     app.get('/', function(req, res, next) {

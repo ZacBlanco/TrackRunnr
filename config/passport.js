@@ -14,40 +14,33 @@ module.exports = function(passport) {
     });
 
 
-    passport.use('local-signup', new LocalStrategy(
-        {
-            passReqToCallback: true
-        }
-        , function(req, username, password, done) {
-            process.nextTick(function() {
+    passport.use('local-signup', new LocalStrategy({ passReqToCallback: true }, 
+					function(req, username, password, done) {
+            			process.nextTick(function() {
+							// Find account with the passed in username
+							User.findOne({ 'username':  username }, function(err, user) {
+								if (err)
+									return done(err);
 
-            // Find account with the passed in username
-            User.findOne({ 'username':  username }, function(err, user) {
-                if (err)
-                    return done(err);
+								// Check for existing username
+								if (user) {
+									return done(null, false, req.flash('signupMessage', 'This username already exists'));
+								} else {
+									// Create new account
+									var newUser = new User();
+									newUser.username = username;
+									newUser.password = newUser.generateHash(password);
 
-                // Check for existing username
-                if (user) {
-                    return done(null, false, req.flash('signupMessage', 'This username already exists'));
-                } else {
-                    // Create new account
-                    var newUser = new User();
-                    newUser.username = username;
-                    newUser.password = newUser.generateHash(password);
-
-                    // Save user
-                    newUser.save(function(err) {
-                        if (err)
-                            throw err;
-                        return done(null, newUser);
-                    });
-                }
-
-            });
-
-            });
-
-    }));
+									// Save user
+									newUser.save(function(err) {
+										if (err)
+											throw err;
+										return done(null, newUser);
+									});
+								}
+            				});
+            			});
+    				}));
 
 
     passport.use('local-login', new LocalStrategy({
