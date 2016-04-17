@@ -6,24 +6,25 @@ var workoutController = require('./controllers/api/workoutApiController');
 
 module.exports = function(app) {
     // ====================== Normal Routing ========================//
-    app.get('/', function(req, res, next) { isLoggedIn(req, res, next, false); },
-        renderController.renderLogin);
+    app.get('/', function(req, res) {
+		renderController.renderLogin(req, res);
+	});
     app.post('/login', authController.authenticateLogin);
     app.get('/logout', renderController.renderLogout);
     app.get('/signup', renderController.renderSignup);
     app.post('/deleteUser', authController.authenticateDelete);
     app.post('/signup', authController.authenticateSignup);
-    app.get('/profile', authController.authenticateLogin, renderController.renderProfile);
+    app.get('/profile', isLoggedIn, function(req, res) {
+        renderController.renderProfile(req, res);
+	});
 
-    function isLoggedIn(req, res, next, shouldRedirect) {
+    function isLoggedIn(req, res, next) {
+		console.log("request authenticated: " + req.isAuthenticated());
         if (req.isAuthenticated()) {
             return next();
-        }
-        if (shouldRedirect) {
-            res.redirect(url);
         } else {
-            return next();
-        }
+			res.redirect('/')
+		}
     }
 
     // ====================== API Routing ========================//

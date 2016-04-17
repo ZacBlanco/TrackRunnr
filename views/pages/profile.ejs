@@ -12,23 +12,34 @@
 		</header>
 
 		<main>
-			<% if (loggedIn){ %>
-			<div class="row">
-                <div class="span6 offset3">
-				    <a class="btn btn-primary entry-button center-button">Add an entry</a>
-                </div>
+			
+			<div class="container">
+				<div class="row">
+					<a class="btn btn-primary entry-button center-button">Add an entry</a>
+				</div>
+				<table class="table">
+					<thead>
+						<tr>
+						<th>Date</th>
+						<th>Total Time</th>
+						<th>Distance</th>
+						<th>Difficulty</th>
+						</tr>
+					</thead>
+					<tbody>
+						<% for (var i = 0; i < workouts.length && i < 7; i++) { %>		
+							<tr>
+<!--								<td><%= JSON.stringify(workouts[i]) %></td>-->
+								<td><%= workouts[i].date %></td>
+								<td><%= workouts[i].totalTime %></td>
+								<td><%= workouts[i].distance %></td>
+								<td><%= workouts[i].difficulty %></td>
+							</tr>
+						<% } %>
+					</tbody>
+				</table>
 			</div>
-            <% for (var i = 0; i < workouts.length && i < 7; i++) { %>
-            <div class="row">
-                <div class="span6 offset3">
-				    <div>
-                        
-                    </div>
-                </div>
-            </div>
-            <% } %>
 
-			<% } %>
 		</main>
 
 		<footer>
