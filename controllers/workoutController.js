@@ -33,22 +33,22 @@ exports.createWorkout = function(user, data, callback) {
 
 //Delete all workouts under a specified user (user, callback)
 exports.deleteAllUserWorkouts = function(user, callback) {
-	Workout.remove({ username: user}, function(err) {
+	Workout.remove({ username: user}, function(err, status) {
 		if(err) {
-			callback(err);
+			callback(err, {succeeded: false});
 		} else {
-			callback(false);
+			callback(null, {succeeded: true});
 		}
 	});
 };
 
 // Delete a single workout given an ID - (id, callback)
 exports.deleteWorkoutById = function(id, callback) {
-	Workout.remove({ _id: id}, function(err) {
+	Workout.remove({ _id: id}, function(err, status) {
 		if(err) {
-			callback(err);
+			callback(err, {succeeded: false});
 		} else {
-			callback(false);
+			callback(null, {succeeded: true});
 		}
 	});
 };

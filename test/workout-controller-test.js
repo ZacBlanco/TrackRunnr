@@ -102,9 +102,25 @@ describe('Test suite for the Workout controller', function(done) {
 	});
 	it('Delete all workouts for a user', function(done){
 		var username = "Bob";
-		for(i = 0; i < 5; i++){
-			workoutFunctions.createWorkout(username, createRandWorkout(username), function(){});
+		createWorkout = function(num, username) {
+			workoutFunctions.createWorkout(username, createRandWorkout(username), function() {
+				if(num >= 0)
+					createWorkout(num-1, username);
+			});
 		}
+		
+		
+//		for(i = 0; i < 5; i++){
+//			workoutFunctions.createWorkout(username, createRandWorkout(username), function(){});
+//		}
+		workoutFunctions.deleteAllUserWorkouts(username, function(err){
+			assert.equal(err, null, 'make sure err is not present');
+			workoutFunctions.getAllWorkouts(username, function(err, data){
+				assert.equal(err, null, 'make sure err is not present');
+				assert.equal(data.length, 0, 'no workouts should be present');
+				done();
+			});
+		});
 	});
 });
 
