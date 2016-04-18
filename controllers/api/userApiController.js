@@ -20,7 +20,7 @@ exports.getUsers = function(req, res) {
     });
 };
 
-// Add a new user to the database. Callback passes (err) and the new user object
+// Add a POST endpoint at /api/users
 exports.postUser = function(req, res) {
     // Create a new User object
     var user = new User({

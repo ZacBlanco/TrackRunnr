@@ -11,7 +11,7 @@ var getErrMsg = {
 
 // A GET endpoint at /api/users/:username/workout
 exports.getWorkouts = function(req, res) {
-	workoutFunctions.getWorkouts(req.params.username, function(err, results){
+	workoutFunctions.getAllWorkouts(req.params.username, function(err, results){
 		res.json(results)
 	});
 };
@@ -40,7 +40,7 @@ exports.postWorkout = function(req, res) {
 		return;
 	}
 	
-	workoutFunctions.postWorkout(req.params.username, req.body, function(err, entry){
+	workoutFunctions.createWorkout(req.params.username, req.body, function(err, entry){
 		if(err) {
 			res.status(400);
 			res.send(err);
@@ -58,7 +58,7 @@ exports.postWorkout = function(req, res) {
 };
 
 exports.deleteWorkouts = function(req, res) {
-	workoutFunctions.deleteWorkouts(req.params.username, function(err){
+	workoutFunctions.deleteAllUserWorkouts(req.params.username, function(err){
 		if(err) {
 			res.status(400);
 			res.send(err);
@@ -69,7 +69,7 @@ exports.deleteWorkouts = function(req, res) {
 };
 
 exports.deleteWorkout = function(req, res) {
-	workoutFunctions.getWorkout(req.params._id, function(err) {
+	workoutFunctions.deleteWorkoutById(req.params._id, function(err) {
 		if(err) {
 			res.status(400);
 			res.send(err);
@@ -81,7 +81,7 @@ exports.deleteWorkout = function(req, res) {
 };
 
 exports.getWorkout = function(req, res) {
-	Workout.findById(req.params.id, function(err, workout) {
+	workoutFunctions.getWorkoutById(req.params.id, function(err, workout) {
         if (err) {
 			res.status(400);
             res.json({message: "No workout exists for id: " + req.params.id })

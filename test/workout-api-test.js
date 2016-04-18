@@ -31,7 +31,7 @@ var updatedWorkoutData = {
 };
 var workoutID;
 
-describe('Workouts Controller Tests', function(done) {
+describe('Workouts API Controller Tests', function(done) {
 	before(function(done) {
 		var userData = { username: workoutUser, password: 'password'}
 		//Perform post to create a new user

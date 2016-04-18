@@ -17,23 +17,25 @@
 					<input type="hidden" name="username" value="<%= user.username %>">
 					<input type="hidden" name="password" value="dummy_password">
 					<fieldset class="form-group">
-						<label for="workoutDate"></label>
+						<label for="workoutDate">Date</label>
 						<input id="workoutDate" type="date" name="date" class="form-control">
 					</fieldset>
 					<fieldset class="form-group">
-						<label for="workoutDifficulty" name="difficulty"></label>
+						<label for="workoutDifficulty" name="difficulty">Difficulty</label>
 						<input id="workoutDifficulty" step="0.01" type="number" placeholder="Difficulty Level (1-10)" name="difficulty" class="form-control">
 					</fieldset>
-					<fieldset class="form-inline">
-						<label for="workoutHour"></label>
+					<fieldset class="form-group">
+						<div class="form-inline">
+						<label for="workoutHour">Hours</label>
 						<input id="workoutHour" type="number" placeholder="Hours" name="hours" class="form-control" min="0" max="23">
-						<label for="workoutMinute"></label>
+						<label for="workoutMinute">Minutes</label>
 						<input id="workoutMinute" step="1" type="number" placeholder="Minute" name="minutes" class="form-control" min="0" max=59>
-						<label for="workoutSecond"></label>
+						<label for="workoutSecond">Seconds</label>
 						<input id="workoutSecond" step="1" type="number" name="seconds" placeHolder="Seconds" class="form-control" min="0" max="59">
+						</div>
 					</fieldset>
 					<fieldset class="form-group">
-						<label for="workoutDistance"></label>
+						<label for="workoutDistance">Distance</label>
 						<input id="workoutDistance" step="0.01" type="number" placeholder="Distance travelled" name="distance" class="form-control">
 					</fieldset>
 					<button type="submit" class="btn btn-primary">Submit</button>

@@ -30,6 +30,7 @@ exports.renderProfile = function(req, res) {
 		res.render('pages/profile.ejs', data);
     });
 };
+
 exports.renderViz= function(req, res) {
     workoutController.getWorkouts(req.user.username, function(err, w) {
 		var data = {workouts: w,

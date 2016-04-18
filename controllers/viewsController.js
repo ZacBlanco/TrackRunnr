@@ -1,5 +1,6 @@
 var workoutController = require('./workoutController');
 
+
 exports.submitWorkout = function(req, res) {
 	var workout = {
             username: req.body.username,

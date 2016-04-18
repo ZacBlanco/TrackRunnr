@@ -22,20 +22,23 @@ mongoose.connect(config.db.url);
 app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
- app.use(express.static('static'));
-// app.engine('ejs', require('ejs').renderFile);
+app.use(express.static('static'));
 app.set('view engine', 'ejs');
 app.set('views', __dirname+'/views');
-app.use(session({ secret: 'secretpassword',
-				resave: true,
-    				saveUninitialized: true}));
+app.use(session({ secret: 'secretpassword', resave: true, saveUninitialized: true}));
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(flash());
 
+// Register Server Routes
 require('./routes')(app);
+
+
 // Start listening
 var server = app.listen(port);
 
+
 console.log("Tracking runners on port: " + port);
+
+
 module.exports = server; // Used for server integration tests
