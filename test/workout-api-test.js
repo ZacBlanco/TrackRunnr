@@ -54,31 +54,11 @@ describe('Workouts API Controller Tests', function(done) {
 			.send(workoutData)
 		.expect('Content-Type', /json/)
 		.end(function(err, res) {
-			console.log(err);
 			res.status.should.equal(200);
 			res.body.message.should.equal("Workout Saved Successfully!");
 			res.body.username.should.equal(workoutUser);
 			res.body.id.should.not.equal(undefined);
 			workoutID = res.body.id;
-			done();
-
-		});
-	});
-
-	it('Successful GET to :username/workouts', function(done) {
-		request(server).get('/api/users/' + workoutUser + "/workouts")
-		.end(function(err, res) {
-			res.status.should.equal(200);
-			for(i = 0; i < res.body.length; i++) {
-				if(res.body[i].id == workoutID){
-					res.body.username.should.equal(workoutData.username);
-					res.body.date.should.equal(workoutData.date);
-					res.body.difficulty.should.equal(workoutData.difficulty);
-					res.body.totalTime.should.equal(workoutData.totalTime);
-					res.body.distance.should.equal(workoutData.distance);
-				}
-			}
-
 			done();
 
 		});
@@ -92,6 +72,30 @@ describe('Workouts API Controller Tests', function(done) {
 			res.status.should.equal(400);
 			res.body.message.should.not.equal("Workout Saved Successfully!");
 			assert.equal(res.body.id, undefined, 'Makes sure workout id is undefined');
+			done();
+		});
+	});
+	it('Successful GET to :username/workouts', function(done) {
+		request(server).get('/api/users/' + workoutUser + "/workouts")
+		.end(function(err, res) {
+			res.status.should.equal(200);
+			for(i = 0; i < res.body.length; i++) {
+				if(res.body[i].id == workoutID){
+					res.body.username.should.equal(workoutData.username);
+					res.body.date.should.equal(workoutData.date);
+					res.body.difficulty.should.equal(workoutData.difficulty);
+					res.body.totalTime.should.equal(workoutData.totalTime);
+					res.body.distance.should.equal(workoutData.distance);
+				}
+			}
+			done();
+		});
+	});
+	it('Malformed get to :username/workouts', function(done){
+		request(server).get('/api/users/BadUserAccount/workouts')
+		.end(function(err, res){
+			assert.equal(err, undefined);
+			assert.equal(res.body.message, "No workouts found for user: BadUserAccount");
 			done();
 		});
 	});

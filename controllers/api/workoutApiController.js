@@ -12,7 +12,14 @@ var getErrMsg = {
 // A GET endpoint at /api/users/:username/workout
 exports.getWorkouts = function(req, res) {
 	workoutFunctions.getAllWorkouts(req.params.username, function(err, results){
-		res.json(results)
+		if(err) {
+			res.json(err);
+		} else if(results.length === 0){
+			res.json({message: "No workouts found for user: " + req.params.username});
+			return;
+		} else {
+			res.json(results)
+		}
 	});
 };
 
@@ -80,24 +87,6 @@ exports.getWorkout = function(req, res) {
 exports.updateWorkout = function(req, res) {
 	
 	var data = req.body;
-	
-	if(typeof(req.params.username) == 'undefined') {
-		res.status(400);
-		res.json({message: "username required to update data"});
-		return;
-	} else if(typeof(data.date) == 'undefined' ) {
-		res.status(400);
-		res.json({message: "date required to update data"});
-		return;
-	} else if(typeof(data.totalTime) == 'undefined') {
-		res.status(400);
-		res.json({message: "total time required to update data"});
-		return;
-	} else if(typeof(data.distance) == 'undefined') {
-		res.status(400);
-		res.json({message: "distance required to update data"});
-		return;
-	} 
 	
 	workoutFunctions.updateWorkout(req.params.id, data, function(err, workout){
 		
