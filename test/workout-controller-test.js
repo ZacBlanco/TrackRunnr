@@ -104,22 +104,100 @@ describe('Test suite for the Workout controller', function(done) {
 		var username = "Bob";
 		createWorkout = function(num, username) {
 			workoutFunctions.createWorkout(username, createRandWorkout(username), function() {
-				if(num >= 0)
+				if(num >= 0) {
 					createWorkout(num-1, username);
+				} else {
+					workoutFunctions.deleteAllUserWorkouts(username, function(err){
+						assert.equal(err, null, 'make sure err is not present');
+						workoutFunctions.getAllWorkouts(username, function(err, data){
+							assert.equal(err, null, 'make sure err is not present');
+							assert.equal(data.length, 0, 'no workouts should be present');
+							done();
+						});
+					});	
+				}
+					
 			});
 		}
-		
-		
-//		for(i = 0; i < 5; i++){
-//			workoutFunctions.createWorkout(username, createRandWorkout(username), function(){});
-//		}
-		workoutFunctions.deleteAllUserWorkouts(username, function(err){
-			assert.equal(err, null, 'make sure err is not present');
-			workoutFunctions.getAllWorkouts(username, function(err, data){
-				assert.equal(err, null, 'make sure err is not present');
-				assert.equal(data.length, 0, 'no workouts should be present');
+		createWorkout(10, username);
+	});
+	it('Null/undefined user - get all workouts', function(done){
+		workoutFunctions.getAllWorkouts(null, function(err, data){
+			assert.equal(err.message, "Error: User is required");
+			assert.equal(data, null);
+			workoutFunctions.getAllWorkouts(undefined, function(err, data){
+				assert.equal(err.message, "Error: User is required");
+				assert.equal(data, null);
 				done();
 			});
+		});
+		
+	});
+	it('Null/undefined values - create workouts', function(done){
+		data = createRandWorkout("name");
+		workoutFunctions.createWorkout(undefined, data, function(err, res){
+			assert.equal(err.message, "User must be defined");
+			assert.equal(res, null);
+			data.totalTime = undefined;
+			workoutFunctions.createWorkout("user", data, function(err, res){
+				assert.equal(err.message, "Total time must be defined");
+				assert.equal(res, null);
+				data.difficulty = null;
+				workoutFunctions.createWorkout("user", data, function(err, res){
+					assert.equal(err.message, "Difficulty must be defined");
+					assert.equal(res, null);
+					done();
+			});
+			});
+		});
+		
+	});
+	it('Null/undefined for delete all user workouts', function(done){
+		workoutFunctions.deleteAllUserWorkouts(undefined, function(err, data){
+			assert.equal(err, null);
+			assert.equal(data.succeeded, true);
+			done();
+		});
+	});
+	it('Null/undefined for get user', function(done){
+		workoutFunctions.getWorkoutById(null, function(err, data){
+			assert.equal(err, null);
+			assert.equal(data, null);
+			done();
+		});
+	});
+	it('Update a workout properly', function(done){
+		data = createRandWorkout("bob");
+		workoutFunctions.createWorkout("bob", data, function(err, res){
+			var workoutID = res._id;
+			var newData = createRandWorkout("bob");
+			workoutFunctions.updateWorkout(workoutID, newData, function(err, res){
+				assert.equal(err, null);
+				assert.equal(new Date(res.date).getTime(), newData.date);
+				assert.equal(res.difficulty, newData.difficulty);
+				assert.equal(res.distance, newData.distance);
+				assert.equal(res.totalTime, newData.totalTime);
+				done();
+			});
+		});
+	});
+	it('Update a workout with invalid data', function(done){
+		data = createRandWorkout("bob");
+		workoutFunctions.createWorkout("bob", data, function(err, res){
+			var workoutID = res._id;
+			var newData = createRandWorkout("bob");
+			workoutFunctions.updateWorkout(workoutID, null, function(err, res){
+				assert.notEqual(err, null);
+				assert.equal(res, null);
+				done();
+			});
+		});
+	});
+	it('Update a nonexistent workout', function(done){
+		workoutFunctions.updateWorkout(null, null, function(err, res){
+			assert.notEqual(err, "No workout found with id: null");
+			assert.equal(res, null);
+			done();
 		});
 	});
 });

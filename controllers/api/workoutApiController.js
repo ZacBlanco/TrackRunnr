@@ -22,24 +22,6 @@ exports.postWorkout = function(req, res) {
 	
 	var data = req.body;
 	
-	if(typeof(req.params.username) == 'undefined') {
-		res.status(400);
-		res.json({message: "username required to post data"});
-		return;
-	} else if(typeof(data.date) == 'undefined' ) {
-		res.status(400);
-		res.json({message: "date required to post data"});
-		return;
-	} else if(typeof(data.totalTime) == 'undefined') {
-		res.status(400);
-		res.json({message: "total time required to post data"});
-		return;
-	} else if(typeof(data.distance) == 'undefined') {
-		res.status(400);
-		res.json({message: "distance required to post data"});
-		return;
-	}
-	
 	workoutFunctions.createWorkout(req.params.username, req.body, function(err, entry){
 		if(err) {
 			res.status(400);

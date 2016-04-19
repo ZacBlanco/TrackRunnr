@@ -54,6 +54,7 @@ describe('Workouts API Controller Tests', function(done) {
 			.send(workoutData)
 		.expect('Content-Type', /json/)
 		.end(function(err, res) {
+			console.log(err);
 			res.status.should.equal(200);
 			res.body.message.should.equal("Workout Saved Successfully!");
 			res.body.username.should.equal(workoutUser);

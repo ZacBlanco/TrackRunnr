@@ -35,7 +35,7 @@ npm test
 ```
 
 
-If all the tests pass then your system is ready to begin devlopment! You can now start your own local copy with
+If all the tests pass then your system is ready to begin development! You can now start your own local copy with
 
 ```bash
 npm start
