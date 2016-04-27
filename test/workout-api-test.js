@@ -174,7 +174,9 @@ describe('Workouts API Controller Tests', function(done) {
 			res.body.username.should.equal(workoutUser);
 			res.body.id.should.not.equal(undefined);
 			workoutID = res.body.id;
+			
 			//Update the request
+			
 			request(server).get('/api/users/' + workoutUser + '/workouts/' + workoutID)
 			.end(function(err, res){
 				res.status.should.equal(200);
@@ -220,3 +222,5 @@ describe('Workouts API Controller Tests', function(done) {
             });
 	});
 });
+
+server.close();

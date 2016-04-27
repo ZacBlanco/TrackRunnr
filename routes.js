@@ -1,12 +1,15 @@
 var express = require('express');
-var userController = require('./controllers/userController');
+var userApiController = require('./controllers//api/userApiController');
 var renderController = require('./controllers/renderController');
 var viewsController = require('./controllers/viewsController');
 var authController = require('./controllers/authController');
-var workoutController = require('./controllers/api/workoutApiController');
+var workoutApiController = require('./controllers/api/workoutApiController');
 
 module.exports = function(app) {
-    // ====================== Normal Routing ========================//
+   
+	
+	
+	// ====================== Normal Routing ========================//
     app.get('/', function(req, res) {
 		renderController.renderLogin(req, res);
 	});
@@ -36,27 +39,31 @@ module.exports = function(app) {
 
     // ====================== API Routing ========================//
     var apiRouter = express.Router();
-    apiRouter.route('/users')
-        .post(userController.postUser)
-        .get(userController.getUsers);
+    
+	//Users API
+	apiRouter.route('/users')
+        .post(userApiController.postUser)
+        .get(userApiController.getUsers);
     apiRouter.route('/users/:username')
-        .delete(userController.deleteUser)
-        .get(userController.getUser);
-    apiRouter.route('/users/:username/workouts')
-        .get(workoutController.getWorkouts)
-        .post(workoutController.postWorkout)
-        .delete(workoutController.deleteWorkouts);
+        .delete(userApiController.deleteUser)
+        .get(userApiController.getUser);
+    
+	//Workouts API
+	apiRouter.route('/users/:username/workouts')
+        .get(workoutApiController.getWorkouts)
+        .post(workoutApiController.postWorkout)
+        .delete(workoutApiController.deleteWorkouts);
     apiRouter.route('/users/:username/workouts/:id')
-        .get(workoutController.getWorkout)
-        .put(workoutController.updateWorkout)
-        .delete(workoutController.deleteWorkout);
+        .get(workoutApiController.getWorkout)
+        .put(workoutApiController.updateWorkout)
+        .delete(workoutApiController.deleteWorkout);
 
 
 
 
     // Register all Routers
     app.use('/api', apiRouter);
-
+	
     // ===========================================================//
 
 

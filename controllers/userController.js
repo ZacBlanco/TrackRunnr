@@ -1,64 +1,72 @@
 // Get the User
 var User = require('../models/user');
-var errorDuplicates = {
-    // This is a bad request error
-    status: 400,
-    errorMsg: {
-        message: "Cannot create a username that already exists"
-    }
-}
+
 
 // Add a GET endpoint at /api/users
-exports.getUsers = function(req, res) {
-    // Return the usernames
+module.exports.getAllUsers = function(callback) {
+    // Return usernames
     User.find({}, {username: 1}, function(err, users) {
-        if (err) {
-            res.send();
-        }
-        else
-            res.json(users);
+		callback(err, users);
     });
 };
 
 // Add a new user to the database. Callback passes (err) and the new user object
-exports.postUser = function(req, res) {
+module.exports.createUser = function(userObject, callback) {
     // Create a new User object
-    var user = new User({
-        username: req.body.username,
-        password: req.body.password
-    });
+    var user = new User();
+	user.username = userObject.username;
+	user.password = userObject.password;
 
     user.save(function(err) {
-        if (err) {
-            res.status(errorDuplicates.status)
-            res.send(errorDuplicates.errorMsg);
-        }
-        else
-            res.json({
+        
+		if(!err) {
+            var resJson = {
                 message: 'New user successfully added!',
                 user: {
                     username: user.username
                 }
-            });
+			};
+			callback(err, resJson);
+		} else {
+			callback(err, null);
+		}
     });
 };
 
-// Add a DELETE endpoint at /api/users/:username
-exports.deleteUser = function(req, res) {
-    User.findOneAndRemove({}, { username: req.params.username }, function(err, user) {
-        if (err)
-            res.send(err);
-        else
-            res.json({ message: "User deleted!"});
-    })
+
+// Delete a user with a given username.
+module.exports.deleteUser = function(username, callback) {
+	
+	if(username == null) {
+		return callback({message: "Username cannot be null or undefined"}, null)
+	}
+	
+    User.findOneAndRemove({ username: username }, function(err, user) {
+		if(err == null && user == null) {
+			return callback(null, {message: 'Username not found. User was not deleted'})
+		}
+        if (err) {
+            callback(err, response);
+		} else {
+            callback(null, { message: "User: " + user.username + " deleted!"});
+    }});
 }
 
 // Add a GET endpoint at /api/users/:username
-exports.getUser = function(req, res) {
-    User.findOne({}, { username: req.params.username }, function(err, user) {
-        if (err)
-            res.send(err);
-        else
-            res.json(user);
-    })
+module.exports.getUser = function(username, callback) {
+	if(username == null) {
+		return callback({message: "Username cannot be null or undefined"}, null);
+	}
+    User.findOne({ username: username }, function(err, user) {
+        if (err) {
+            callback(err, null);
+		} else {
+			if(user == null) { //will be true for null OR undefined with ==
+				callback(null, {message: "User: " + username + " not found!"})
+			} else {
+				callback(null, user);
+			}
+            
+		}
+    });
 }

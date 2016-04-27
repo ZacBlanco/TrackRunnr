@@ -202,7 +202,7 @@ describe('Test suite for the Workout controller', function(done) {
 	});
 });
 
-
+server.close();
 
 
 

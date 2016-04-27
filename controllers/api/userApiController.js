@@ -1,23 +1,19 @@
 // Get the User
-var User = require('../models/user');
-var errorDuplicates = {
-    // This is a bad request error
-    status: 400,
-    errorMsg: {
-        message: "Cannot create a username that already exists"
-    }
-}
+var User = require('../../models/user');
+var userFunctions = require('../userController');
 
 // Add a GET endpoint at /api/users
 exports.getUsers = function(req, res) {
     // Return the usernames
-    User.find({}, {username: 1}, function(err, users) {
-        if (err) {
-            res.send();
-        }
-        else
-            res.json(users);
-    });
+    userFunctions.getAllUsers(function(err, data){
+		if(err) {
+			res.status(400);
+			res.json(err);
+		} else {
+			res.status(200);
+			res.json(data);
+		}
+	});
 };
 
 // Add a POST endpoint at /api/users
@@ -28,37 +24,43 @@ exports.postUser = function(req, res) {
         password: req.body.password
     });
 
-    user.save(function(err) {
-        if (err) {
-            res.status(errorDuplicates.status)
-            res.send(errorDuplicates.errorMsg);
-        }
-        else
-            res.json({
-                message: 'New user successfully added!',
-                user: {
-                    username: user.username
-                }
-            });
-    });
+    userFunctions.createUser(user, function(err, data){
+		if(err){
+			res.status(400);
+			if(err.code == 11000) {
+				return res.json({message: "Username already exists"})
+			} else {
+				res.json(err);
+			}
+		} else {
+			res.status(200);
+			res.json(data);
+		}
+	});
 };
 
 // Add a DELETE endpoint at /api/users/:username
 exports.deleteUser = function(req, res) {
-    User.findOneAndRemove({}, { username: req.params.username }, function(err, user) {
-        if (err)
-            res.send(err);
-        else
-            res.json({ message: "User deleted!"});
-    })
+    userFunctions.deleteUser(req.params.username, function(err, data){
+		if(err){
+			res.status(400);
+			res.json(err);
+		} else {
+			res.status(200);
+			res.json(data);
+		}
+	});
 }
 
 // Add a GET endpoint at /api/users/:username
 exports.getUser = function(req, res) {
-    User.findOne({}, { username: req.params.username }, function(err, user) {
-        if (err)
-            res.send(err);
-        else
-            res.json(user);
-    })
+    userFunctions.getUser(req.params.username, function(err, data){
+		if(err){
+			res.status(400);
+			res.json(err);
+		} else {
+			res.status(200);
+			res.json(data);
+		}
+	});
 }

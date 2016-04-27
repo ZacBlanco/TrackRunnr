@@ -38,10 +38,9 @@ describe('This contains tests for the user model and controller', function() {
             .end(function(err, res) {
                 if (err) {
                     done(err);
-                }
-                else {
+                } else {
                     res.status.should.equal(400);
-                    res.body.message.should.equal('Cannot create a username that already exists');
+                    res.body.message.should.equal('Username already exists');
                     done();
                 };
             });
